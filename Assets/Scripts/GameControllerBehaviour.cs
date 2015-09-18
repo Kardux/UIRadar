@@ -61,13 +61,11 @@ public class GameControllerBehaviour : MonoBehaviour
 		if (GUI.Button(new Rect(25f, 225f, 75f, 25f), "1 camera"))
 		{
 			GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().rect = new Rect(0f, 0f, 1f, 1f);
-			GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UIRadarV2>().SetCameraSpecifications();
 			GameObject.FindGameObjectWithTag("Camera2").GetComponent<UIRadarV2>().enabled = false;
 		}
 		if (GUI.Button(new Rect(125f, 225f, 75f, 25f), "2 cameras"))
 		{
 			GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().rect = new Rect(0.1f, 0.1f, 0.35f, 0.8f);
-			GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UIRadarV2>().SetCameraSpecifications();
 			GameObject.FindGameObjectWithTag("Camera2").GetComponent<UIRadarV2>().enabled = true;
 		}
 	}

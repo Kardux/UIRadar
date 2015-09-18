@@ -38,7 +38,8 @@ public class UIRadarV2 : MonoBehaviour
     public float m_ScalingSpeed = 5.0f;
     public float m_MovingSpeed = 5.0f;
     public string m_Tag = "";
-    public bool m_DirectViewOnly = true;
+    public bool m_DirectViewOnly = false;
+    public string m_RaycastLayer = "";
     public bool m_AlphaBlending = false;
     public float m_AlphaStartPercentage = 0.2f;
 
@@ -50,23 +51,20 @@ public class UIRadarV2 : MonoBehaviour
         public Vector3 m_WorldToScreenPosition;
         public Vector2 m_CurrentScale;
         public Vector2 m_CurrentPosition;
-        public Vector2 m_TargetScale;
-        public Vector2 m_TargetPosition;
+        public Vector2 m_TargetLerpScale;
+        public Vector2 m_TargetLerpPosition;
         public float m_IconAlpha;
     }
 
     private List<RadarMarker> m_MarkersList = new List<RadarMarker>();
     private List<GameObject> m_Targets;
 
+    private GameObject m_MainCamera;
     private GameObject m_MarkerMockUp;
 
     private Vector2 m_CanvasSize;
-
-    private float cameraXSize;
-    private float cameraYSize;
-    private float cameraXPos;
-    private float cameraYPos;
-
+    private Vector2 m_RadarRatio;
+    private Rect m_RadarRect;
 #pragma warning restore 0414
     //////////////////////////////////////////////////////////////////////////
     #endregion
@@ -77,7 +75,7 @@ public class UIRadarV2 : MonoBehaviour
     //////////////////////////////////////////////////////////////////////////
     void Awake()
     {
-        //Check if the tag exists in the project
+        //Check if the tag exists in the project - May be obsolete in the future
 #if UNITY_EDITOR
         bool checkTag = false;
         for (int i = 0; i < UnityEditorInternal.InternalEditorUtility.tags.Length; i++)
@@ -90,11 +88,18 @@ public class UIRadarV2 : MonoBehaviour
 #endif
 
         m_Targets = new List<GameObject>();
+        m_MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         m_MarkerMockUp = GetComponentInChildren<Image>().gameObject;
-        //m_CanvasSize = new Vector2(FindCanvasInParents(gameObject).GetComponent<RectTransform>().rect.width, FindCanvasInParents(gameObject).GetComponent<RectTransform>().rect.height);
-        m_CanvasSize = new Vector2(1586.0f, 847.0f);
-        Debug.Log(m_CanvasSize);
-        //SetCameraSpecifications();
+
+        RectTransform _RadarRect = GetComponent<RectTransform>();
+        m_CanvasSize = new Vector2((_RadarRect.anchorMax.x - _RadarRect.anchorMin.x) * Screen.width, (_RadarRect.anchorMax.y - _RadarRect.anchorMin.y) * Screen.height);
+        m_RadarRatio = new Vector2(Screen.width / m_CanvasSize.x, Screen.height / m_CanvasSize.y);
+
+        m_RadarRect = new Rect();
+        m_RadarRect.min = new Vector2(_RadarRect.anchorMin.x, _RadarRect.anchorMin.y);
+        m_RadarRect.max = new Vector2(_RadarRect.anchorMax.x, _RadarRect.anchorMax.y);
+
+        Debug.Log(m_RadarRect);
 
         UpdateTargets();
     }
@@ -103,7 +108,7 @@ public class UIRadarV2 : MonoBehaviour
     {
         for (int i = 0; i < m_Targets.Count; i++)
         {
-            RadarMarker _Marker = new RadarMarker();	
+            RadarMarker _Marker = new RadarMarker();
             _Marker = m_MarkersList[i];
 
             if (m_Targets[i])
@@ -114,31 +119,51 @@ public class UIRadarV2 : MonoBehaviour
 
             if (_Marker.m_TargetDistance > m_MaxDistance || _Marker.m_TargetDistance < m_MinDistance || _Marker.m_WorldToScreenPosition.z < 0.0f)
             {
-                _Marker.m_TargetScale.x = m_MinMarkerScale;
-                _Marker.m_TargetScale.y = m_MinMarkerScale;
+                _Marker.m_TargetLerpScale.x = m_MinMarkerScale;
+                _Marker.m_TargetLerpScale.y = m_MinMarkerScale;
             }
             else
             {
-                _Marker.m_TargetScale.x = m_MaxMarkerScale / _Marker.m_TargetDistance;
-                _Marker.m_TargetScale.y = m_MaxMarkerScale / _Marker.m_TargetDistance;
+                _Marker.m_TargetLerpScale.x = m_MaxMarkerScale / _Marker.m_TargetDistance;
+                _Marker.m_TargetLerpScale.y = m_MaxMarkerScale / _Marker.m_TargetDistance;
             }
 
-            if (_Marker.m_TargetDistance > m_MaxDistance || _Marker.m_WorldToScreenPosition.z < 0.0f)
-            {
-                if (_Marker.m_WorldToScreenPosition.x < 0.5f)
-                    _Marker.m_TargetPosition.x = 0.0f;
-                else
-                    _Marker.m_TargetPosition.x = 1.0f;
+            bool _DirectView = false;
 
-                if (_Marker.m_WorldToScreenPosition.y < 0.5f)
-                    _Marker.m_TargetPosition.y = 0.0f;
-                else
-                    _Marker.m_TargetPosition.y = 1.0f;
+            if (m_DirectViewOnly)
+            {
+                RaycastHit _HitInfos = new RaycastHit();
+                Physics.Raycast(m_MainCamera.transform.position, _Marker.m_TargetObject.transform.position - m_MainCamera.transform.position, out _HitInfos, m_MaxDistance, LayerMask.NameToLayer(m_RaycastLayer));
+
+                if (_HitInfos.collider)
+                {
+                    if (_HitInfos.collider.gameObject.Equals(_Marker.m_TargetObject))
+                        _DirectView = true;
+                }
             }
             else
             {
-                _Marker.m_TargetPosition.x = Mathf.Clamp(_Marker.m_WorldToScreenPosition.x, 0.0f, 1.0f);
-                _Marker.m_TargetPosition.y = Mathf.Clamp(_Marker.m_WorldToScreenPosition.y, 0.0f, 1.0f);
+                _DirectView = true;
+            }
+
+            if (!_DirectView || _Marker.m_TargetDistance > m_MaxDistance || _Marker.m_WorldToScreenPosition.z < 0.0f)
+            {
+                if (_Marker.m_WorldToScreenPosition.x < m_RadarRect.xMin + m_RadarRect.width * 0.5f)
+                    _Marker.m_TargetLerpPosition.x = 0.0f;
+                else
+                    _Marker.m_TargetLerpPosition.x = 1.0f;
+
+                if (_Marker.m_WorldToScreenPosition.y < m_RadarRect.yMin + m_RadarRect.height * 0.5f)
+                    _Marker.m_TargetLerpPosition.y = 0.0f;
+                else
+                    _Marker.m_TargetLerpPosition.y = 1.0f;
+
+                _Marker.m_TargetLerpScale = Vector2.zero;
+            }
+            else
+            {
+                _Marker.m_TargetLerpPosition.x = Mathf.Clamp(_Marker.m_WorldToScreenPosition.x, 0.0f, 1.0f);
+                _Marker.m_TargetLerpPosition.y = Mathf.Clamp(_Marker.m_WorldToScreenPosition.y, 0.0f, 1.0f);
             }
 
             if (m_AlphaBlending)
@@ -146,44 +171,22 @@ public class UIRadarV2 : MonoBehaviour
                 float _XAlpha = 1.0f;
                 float _YAlpha = 1.0f;
 
-                if (_Marker.m_WorldToScreenPosition.x < m_AlphaStartPercentage)
-                    _XAlpha = Mathf.Clamp(_Marker.m_WorldToScreenPosition.x / m_AlphaStartPercentage, 0f, 1f);
-                else if (_Marker.m_WorldToScreenPosition.x > (1f - m_AlphaStartPercentage))
-                    _XAlpha = Mathf.Clamp((1.0f - _Marker.m_WorldToScreenPosition.x) / (m_AlphaStartPercentage), 0f, 1f);
+                if (_Marker.m_WorldToScreenPosition.x < m_RadarRect.xMin + m_RadarRect.width * m_AlphaStartPercentage)
+                    _XAlpha = Mathf.Clamp((_Marker.m_WorldToScreenPosition.x - m_RadarRect.xMin) / m_AlphaStartPercentage, 0f, 1f);
+                else if (_Marker.m_WorldToScreenPosition.x > m_RadarRect.xMax - m_RadarRect.width * (1.0f - m_AlphaStartPercentage))
+                    _XAlpha = Mathf.Clamp((m_RadarRect.xMax - _Marker.m_WorldToScreenPosition.x) / m_AlphaStartPercentage, 0f, 1f);
 
-                if (_Marker.m_WorldToScreenPosition.y < m_AlphaStartPercentage)
-                    _YAlpha = Mathf.Clamp(_Marker.m_WorldToScreenPosition.y / m_AlphaStartPercentage, 0f, 1f);
-                else if (_Marker.m_WorldToScreenPosition.y > (1f - m_AlphaStartPercentage))
-                    _YAlpha = Mathf.Clamp((1.0f - _Marker.m_WorldToScreenPosition.y) / (m_AlphaStartPercentage), 0f, 1f);
+                if (_Marker.m_WorldToScreenPosition.y < m_RadarRect.yMin + m_RadarRect.height * m_AlphaStartPercentage)
+                    _YAlpha = Mathf.Clamp((_Marker.m_WorldToScreenPosition.y - m_RadarRect.yMin) / m_AlphaStartPercentage, 0f, 1f);
+                else if (_Marker.m_WorldToScreenPosition.y > m_RadarRect.yMax - m_RadarRect.height * (1.0f - m_AlphaStartPercentage))
+                    _YAlpha = Mathf.Clamp((m_RadarRect.yMax - _Marker.m_WorldToScreenPosition.y) / m_AlphaStartPercentage, 0f, 1f);
 
                 _Marker.m_IconAlpha = (_XAlpha < _YAlpha ? _XAlpha : _YAlpha);
             }
 
-            _Marker.m_CurrentScale.x = Mathf.Lerp(_Marker.m_CurrentScale.x, _Marker.m_TargetScale.x, m_ScalingSpeed * Time.deltaTime);
-            _Marker.m_CurrentScale.y = Mathf.Lerp(_Marker.m_CurrentScale.x, _Marker.m_TargetScale.y, m_ScalingSpeed * Time.deltaTime);
 
-            _Marker.m_CurrentPosition.x = Mathf.Lerp(_Marker.m_CurrentPosition.x, _Marker.m_TargetPosition.x * m_CanvasSize.x, m_MovingSpeed * Time.deltaTime);
-            _Marker.m_CurrentPosition.y = Mathf.Lerp(_Marker.m_CurrentPosition.y, _Marker.m_TargetPosition.y * m_CanvasSize.y, m_MovingSpeed * Time.deltaTime);
-
-            /*
-
-            if (m_Targets[i])
-            {
-                
-                RaycastHit hitInfos = new RaycastHit();																	//You create a new variable to stock the information of the coming raycast
-                Physics.Raycast(transform.position, target.item.transform.position-transform.position, out hitInfos);	//and you RayCast from the player's position to the item's position
-				
-                if(hitInfos.collider.gameObject.layer==8)																//HERE IS A BIT TRICKY : you have to creat new layers (I called them "Interactive Items" and "Obstacles") and to apply them to your various items.
-                    target.directView=true;																				//Then you select EVERY items in your scene and set their layer to "Ignore Raycast". After that you select your interactive items biggest shape (if you have big trigger colliders on them select the item that hold it),
-                else 																									//and set their layers to "Interactive Items". Last part is setting every potential obstacle item layer to "Obstacles".
-                    target.directView=false;																			//NOTE : Here my "Interactive Items" layer number is 8
-				
-                
-                m_MarkersList[i] = _Marker;																	//You apply all the variables to your index-i icon in the ICONS LIST
-            }
-             * 
-             * */
-
+            _Marker.m_CurrentScale = Vector2.Lerp(_Marker.m_CurrentScale, _Marker.m_TargetLerpScale, m_ScalingSpeed * Time.deltaTime);
+            _Marker.m_CurrentPosition = Vector2.Lerp(_Marker.m_CurrentPosition, _Marker.m_TargetLerpPosition * m_CanvasSize.x * m_RadarRatio.x, m_MovingSpeed * Time.deltaTime);
 
             _Marker.m_TargetObject.GetComponent<RectTransform>().position = new Vector3(_Marker.m_CurrentPosition.x, _Marker.m_CurrentPosition.y, 0.0f);
             _Marker.m_TargetObject.GetComponent<RectTransform>().localScale = new Vector3(_Marker.m_CurrentScale.x, _Marker.m_CurrentScale.y, 1.0f);
@@ -192,29 +195,11 @@ public class UIRadarV2 : MonoBehaviour
             _Marker.m_TargetObject.GetComponent<Image>().color = new Color(_TmpColor.r, _TmpColor.g, _TmpColor.b, _Marker.m_IconAlpha);
 
             m_MarkersList[i] = _Marker;
-            
-            //Debug.Log("World to screen : " + _Marker.m_WorldToScreenPosition.ToString() + " // Current position : " + _Marker.m_CurrentPosition.ToString() + " // Target position : " + _Marker.m_TargetPosition.ToString());
+
+            //Debug.Log("World to screen : " + _Marker.m_WorldToScreenPosition.ToString() + " // Current position : " + _Marker.m_CurrentPosition.ToString() + " // Target position : " + _Marker.m_TargetLerpPosition.ToString());
 
         }
     }
-    /*
-    void OnGUI()
-    {
-        GUI.color = guiGolor;
-        for (int i = 0; i < m_Targets.Count; i++)																						//For every icon
-        {
-            if (m_MarkersList[i].m_WorldToScreenPosition.z > 0 && (!m_DirectViewOnly || (m_DirectViewOnly && m_MarkersList[i].m_TargetInDirectView)))					//If the icon is in front of you and all the required conditions are okay
-            {
-                if (m_AlphaBlending)
-                {
-                    guiGolor.a = m_MarkersList[i].m_IconAlpha;
-                    GUI.color = guiGolor;
-                }
-                GUI.DrawTexture(new Rect(m_MarkersList[i].m_CurrentPosition.x, m_MarkersList[i].m_CurrentPosition.y, m_MarkersList[i].m_CurrentScale.x, m_MarkersList[i].m_CurrentScale.y), m_MarkerSprite);//you display the icon with it's size and position
-            }
-        }
-    }
-    */
     //////////////////////////////////////////////////////////////////////////
     #endregion
 
@@ -222,15 +207,6 @@ public class UIRadarV2 : MonoBehaviour
     //////////////////////////////////////////////////////////////////////////
     //METHODS
     //////////////////////////////////////////////////////////////////////////
-    public void SetCameraSpecifications()
-    {
-        Rect cameraViewport = this.GetComponent<Camera>().rect;
-        cameraXPos = cameraViewport.x * Screen.width;
-        cameraYPos = (1f - cameraViewport.y - cameraViewport.height) * Screen.height;
-        cameraXSize = cameraViewport.width * Screen.width;
-        cameraYSize = cameraViewport.height * Screen.height;
-    }
-
     public void UpdateTargets()
     {
         m_Targets.Clear();
@@ -305,25 +281,6 @@ public class UIRadarV2 : MonoBehaviour
         m_AlphaStartPercentage = AlphaStartPercentage;
     }
     //////////////////////////////////////////////////////////////////////////
-    private Canvas FindCanvasInParents(GameObject Container)
-    {
-        Canvas _Result = Container.GetComponent<Canvas>();
-        if (_Result)
-        {
-            return _Result;
-        }
-        else
-        {
-            if (Container.transform.parent)
-            {
-                return FindCanvasInParents(Container.transform.parent.gameObject);
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
     #endregion
 }
 //////////////////////////////////////////////////////////////////////////

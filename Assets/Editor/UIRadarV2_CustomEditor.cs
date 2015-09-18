@@ -70,6 +70,12 @@ public class UIRadarV2_CustomEditor : Editor
             _Target.m_AlphaStartPercentage = EditorGUILayout.FloatField("AlphaStartPercentage", _Target.m_AlphaStartPercentage);
         }
 
+        _Target.m_DirectViewOnly = EditorGUILayout.Toggle("DirectViewOnly", _Target.m_DirectViewOnly);
+        if (_Target.m_DirectViewOnly)
+        {
+            _Target.m_RaycastLayer = LayerMask.LayerToName(EditorGUILayout.LayerField("RaycastLayer", LayerMask.NameToLayer(_Target.m_RaycastLayer)));
+        }
+
         /*
         TestPropertyManager temp = target as TestPropertyManager;
 
