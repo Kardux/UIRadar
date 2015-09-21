@@ -30,18 +30,40 @@ public class UIRadarV2 : MonoBehaviour
     //VARIABLES
     //////////////////////////////////////////////////////////////////////////
 #pragma warning disable 0414
+    //Sprite
     public Sprite m_MarkerSprite;
+
+    //Scale
     public float m_MaxMarkerScale = 1.0f;
     public float m_MinMarkerScale = 0.0f;
+
+    //Distance
     public float m_MaxDistance = 10.0f;
     public float m_MinDistance = 2.0f;
+
+    //Lerping
+    public bool m_UseLerps = true;
+    public bool m_LerpScales = true;
+    public bool m_LerpMoves = true;
+    public bool m_LerpAlphaChanges = true;
     public float m_ScalingSpeed = 5.0f;
     public float m_MovingSpeed = 5.0f;
+    public float m_AlphaChangingSpeed = 5.0f;
+
+    //Alpha blending
+    public bool m_UseAlphaBlending = true;
+    public float m_AlphaStartPercentage = 0.2f;
+    public bool m_UseCustomAlphaLimits = true;
+    public float m_MinAlpha = 0.0f;
+    public float m_MaxAlpha = 0.75f;
+
+    //Tag to follow
     public string m_Tag = "";
+
+    //Display only if target can be seen
     public bool m_DirectViewOnly = false;
     public string m_RaycastLayer = "";
-    public bool m_AlphaBlending = false;
-    public float m_AlphaStartPercentage = 0.2f;
+    
 
     public struct RadarMarker
     {
@@ -53,7 +75,8 @@ public class UIRadarV2 : MonoBehaviour
         public Vector2 m_CurrentPosition;
         public Vector2 m_TargetLerpScale;
         public Vector2 m_TargetLerpPosition;
-        public float m_IconAlpha;
+        public float m_CurrentMarkerAlpha;
+        public float m_TargetLerpMarkerAlpha;
     }
 
     private List<RadarMarker> m_MarkersList = new List<RadarMarker>();
@@ -91,13 +114,7 @@ public class UIRadarV2 : MonoBehaviour
         m_MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         m_MarkerMockUp = GetComponentInChildren<Image>().gameObject;
 
-        RectTransform _RadarRect = GetComponent<RectTransform>();
-        m_CanvasSize = new Vector2((_RadarRect.anchorMax.x - _RadarRect.anchorMin.x) * Screen.width, (_RadarRect.anchorMax.y - _RadarRect.anchorMin.y) * Screen.height);
-        m_RadarRatio = new Vector2(Screen.width / m_CanvasSize.x, Screen.height / m_CanvasSize.y);
-
-        m_RadarRect = new Rect();
-        m_RadarRect.min = new Vector2(_RadarRect.anchorMin.x, _RadarRect.anchorMin.y);
-        m_RadarRect.max = new Vector2(_RadarRect.anchorMax.x, _RadarRect.anchorMax.y);
+        SetRadarSpecifications();
 
         Debug.Log(m_RadarRect);
 
@@ -133,11 +150,9 @@ public class UIRadarV2 : MonoBehaviour
             if (m_DirectViewOnly)
             {
                 RaycastHit _HitInfos = new RaycastHit();
-                Physics.Raycast(m_MainCamera.transform.position, _Marker.m_TargetObject.transform.position - m_MainCamera.transform.position, out _HitInfos, m_MaxDistance, LayerMask.NameToLayer(m_RaycastLayer));
-
-                if (_HitInfos.collider)
+                if (Physics.Raycast(m_MainCamera.transform.position, m_Targets[i].transform.position - m_MainCamera.transform.position, out _HitInfos, m_MaxDistance, ~ LayerMask.NameToLayer(m_RaycastLayer)))
                 {
-                    if (_HitInfos.collider.gameObject.Equals(_Marker.m_TargetObject))
+                    if (_HitInfos.collider.gameObject.Equals(m_Targets[i]))
                         _DirectView = true;
                 }
             }
@@ -145,6 +160,8 @@ public class UIRadarV2 : MonoBehaviour
             {
                 _DirectView = true;
             }
+
+            bool _TargetInRange = false;
 
             if (!_DirectView || _Marker.m_TargetDistance > m_MaxDistance || _Marker.m_WorldToScreenPosition.z < 0.0f)
             {
@@ -164,35 +181,80 @@ public class UIRadarV2 : MonoBehaviour
             {
                 _Marker.m_TargetLerpPosition.x = Mathf.Clamp(_Marker.m_WorldToScreenPosition.x, 0.0f, 1.0f);
                 _Marker.m_TargetLerpPosition.y = Mathf.Clamp(_Marker.m_WorldToScreenPosition.y, 0.0f, 1.0f);
+
+                _TargetInRange = true;
             }
 
-            if (m_AlphaBlending)
+            if (!_TargetInRange || _Marker.m_WorldToScreenPosition.x < m_RadarRect.xMin || _Marker.m_WorldToScreenPosition.x > m_RadarRect.xMax || _Marker.m_WorldToScreenPosition.y < m_RadarRect.yMin || _Marker.m_WorldToScreenPosition.y > m_RadarRect.yMax)
+            {
+                _Marker.m_TargetLerpMarkerAlpha = m_MinAlpha;
+            }
+            else if (m_UseAlphaBlending)
             {
                 float _XAlpha = 1.0f;
                 float _YAlpha = 1.0f;
 
                 if (_Marker.m_WorldToScreenPosition.x < m_RadarRect.xMin + m_RadarRect.width * m_AlphaStartPercentage)
-                    _XAlpha = Mathf.Clamp((_Marker.m_WorldToScreenPosition.x - m_RadarRect.xMin) / m_AlphaStartPercentage, 0f, 1f);
-                else if (_Marker.m_WorldToScreenPosition.x > m_RadarRect.xMax - m_RadarRect.width * (1.0f - m_AlphaStartPercentage))
-                    _XAlpha = Mathf.Clamp((m_RadarRect.xMax - _Marker.m_WorldToScreenPosition.x) / m_AlphaStartPercentage, 0f, 1f);
+                    _XAlpha = Mathf.Clamp((_Marker.m_WorldToScreenPosition.x - m_RadarRect.xMin) / m_AlphaStartPercentage / m_RadarRect.width, 0f, 1f);
+                else if (_Marker.m_WorldToScreenPosition.x > m_RadarRect.xMax - m_RadarRect.width * m_AlphaStartPercentage)
+                    _XAlpha = Mathf.Clamp((m_RadarRect.xMax - _Marker.m_WorldToScreenPosition.x) / m_AlphaStartPercentage / m_RadarRect.width, 0f, 1f);
 
                 if (_Marker.m_WorldToScreenPosition.y < m_RadarRect.yMin + m_RadarRect.height * m_AlphaStartPercentage)
-                    _YAlpha = Mathf.Clamp((_Marker.m_WorldToScreenPosition.y - m_RadarRect.yMin) / m_AlphaStartPercentage, 0f, 1f);
-                else if (_Marker.m_WorldToScreenPosition.y > m_RadarRect.yMax - m_RadarRect.height * (1.0f - m_AlphaStartPercentage))
-                    _YAlpha = Mathf.Clamp((m_RadarRect.yMax - _Marker.m_WorldToScreenPosition.y) / m_AlphaStartPercentage, 0f, 1f);
+                    _YAlpha = Mathf.Clamp((_Marker.m_WorldToScreenPosition.y - m_RadarRect.yMin) / m_AlphaStartPercentage / m_RadarRect.height, 0f, 1f);
+                else if (_Marker.m_WorldToScreenPosition.y > m_RadarRect.yMax - m_RadarRect.height * m_AlphaStartPercentage)
+                    _YAlpha = Mathf.Clamp((m_RadarRect.yMax - _Marker.m_WorldToScreenPosition.y) / m_AlphaStartPercentage / m_RadarRect.height, 0f, 1f);
 
-                _Marker.m_IconAlpha = (_XAlpha < _YAlpha ? _XAlpha : _YAlpha);
+
+                _Marker.m_TargetLerpMarkerAlpha = (_XAlpha < _YAlpha ? m_MinAlpha + (m_MaxAlpha - m_MinAlpha) * _XAlpha : m_MinAlpha + (m_MaxAlpha - m_MinAlpha) * _YAlpha);
+            }
+            else
+            {
+                _Marker.m_TargetLerpMarkerAlpha = m_MaxAlpha;
             }
 
+            if (m_UseLerps)
+            {
+                if (m_LerpScales)
+                    _Marker.m_CurrentScale = Vector2.Lerp(_Marker.m_CurrentScale, _Marker.m_TargetLerpScale, m_ScalingSpeed * Time.deltaTime);
+                else
+                    _Marker.m_CurrentScale = _Marker.m_TargetLerpScale;
 
-            _Marker.m_CurrentScale = Vector2.Lerp(_Marker.m_CurrentScale, _Marker.m_TargetLerpScale, m_ScalingSpeed * Time.deltaTime);
-            _Marker.m_CurrentPosition = Vector2.Lerp(_Marker.m_CurrentPosition, _Marker.m_TargetLerpPosition * m_CanvasSize.x * m_RadarRatio.x, m_MovingSpeed * Time.deltaTime);
+                if (m_LerpMoves)
+                {
+                    _Marker.m_CurrentPosition.x = Mathf.Lerp(_Marker.m_CurrentPosition.x, _Marker.m_TargetLerpPosition.x * m_CanvasSize.x * m_RadarRatio.x, m_MovingSpeed * Time.deltaTime);
+                    _Marker.m_CurrentPosition.y = Mathf.Lerp(_Marker.m_CurrentPosition.y, _Marker.m_TargetLerpPosition.y * m_CanvasSize.y * m_RadarRatio.y, m_MovingSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    _Marker.m_CurrentPosition.x = _Marker.m_TargetLerpPosition.x * m_CanvasSize.x * m_RadarRatio.x;
+                    _Marker.m_CurrentPosition.y = _Marker.m_TargetLerpPosition.y * m_CanvasSize.y * m_RadarRatio.y;
+                }
+
+                if (m_LerpAlphaChanges)
+                {
+                    _Marker.m_CurrentMarkerAlpha = Mathf.Lerp(_Marker.m_CurrentMarkerAlpha, _Marker.m_TargetLerpMarkerAlpha, m_AlphaChangingSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    _Marker.m_CurrentMarkerAlpha = _Marker.m_TargetLerpMarkerAlpha;
+                }
+                
+            }
+            else
+            {
+                _Marker.m_CurrentScale = _Marker.m_TargetLerpScale;
+
+                _Marker.m_CurrentPosition.x = _Marker.m_TargetLerpPosition.x * m_CanvasSize.x * m_RadarRatio.x;
+                _Marker.m_CurrentPosition.y = _Marker.m_TargetLerpPosition.y * m_CanvasSize.y * m_RadarRatio.y;
+
+                _Marker.m_CurrentMarkerAlpha = _Marker.m_TargetLerpMarkerAlpha;
+            }
 
             _Marker.m_TargetObject.GetComponent<RectTransform>().position = new Vector3(_Marker.m_CurrentPosition.x, _Marker.m_CurrentPosition.y, 0.0f);
             _Marker.m_TargetObject.GetComponent<RectTransform>().localScale = new Vector3(_Marker.m_CurrentScale.x, _Marker.m_CurrentScale.y, 1.0f);
 
             Color _TmpColor = _Marker.m_TargetObject.GetComponent<Image>().color;
-            _Marker.m_TargetObject.GetComponent<Image>().color = new Color(_TmpColor.r, _TmpColor.g, _TmpColor.b, _Marker.m_IconAlpha);
+            _Marker.m_TargetObject.GetComponent<Image>().color = new Color(_TmpColor.r, _TmpColor.g, _TmpColor.b, _Marker.m_CurrentMarkerAlpha);
 
             m_MarkersList[i] = _Marker;
 
@@ -207,6 +269,23 @@ public class UIRadarV2 : MonoBehaviour
     //////////////////////////////////////////////////////////////////////////
     //METHODS
     //////////////////////////////////////////////////////////////////////////
+    public void SetRadarSpecifications()
+    {
+        RectTransform _RadarRect = GetComponent<RectTransform>();
+        m_CanvasSize = new Vector2((_RadarRect.anchorMax.x - _RadarRect.anchorMin.x) * Screen.width, (_RadarRect.anchorMax.y - _RadarRect.anchorMin.y) * Screen.height);
+        m_RadarRatio = new Vector2(Screen.width / m_CanvasSize.x, Screen.height / m_CanvasSize.y);
+
+        m_RadarRect = new Rect();
+        m_RadarRect.min = new Vector2(_RadarRect.anchorMin.x, _RadarRect.anchorMin.y);
+        m_RadarRect.max = new Vector2(_RadarRect.anchorMax.x, _RadarRect.anchorMax.y);
+
+        if (m_UseAlphaBlending && !m_UseCustomAlphaLimits)
+        {
+            m_MinAlpha = 0.0f;
+            m_MaxAlpha = 1.0f;
+        }
+    }
+    
     public void UpdateTargets()
     {
         m_Targets.Clear();
@@ -229,7 +308,7 @@ public class UIRadarV2 : MonoBehaviour
             _Icon.transform.SetParent(transform);
             _Icon.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
             _NewTarget.m_TargetObject = _Icon;
-            _NewTarget.m_IconAlpha = 1.0f;
+            _NewTarget.m_CurrentMarkerAlpha = 1.0f;
             m_MarkersList.Add(_NewTarget);
         }
 

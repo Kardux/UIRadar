@@ -99,7 +99,7 @@ GameObject:
   - 65: {fileID: 23482190}
   - 23: {fileID: 23482189}
   m_Layer: 8
-  m_Name: Cube
+  m_Name: Blue_Cube_1
   m_TagString: BlueCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -425,7 +425,7 @@ GameObject:
   - 65: {fileID: 1255835153}
   - 23: {fileID: 1255835152}
   m_Layer: 8
-  m_Name: Cube
+  m_Name: Cube_White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -795,13 +795,21 @@ MonoBehaviour:
   m_MinMarkerScale: 0
   m_MaxDistance: 25
   m_MinDistance: 2
-  m_ScalingSpeed: 10
-  m_MovingSpeed: 10
-  m_Tag: BlueCubes
-  m_DirectViewOnly: 0
-  m_RaycastLayer: BlueCubes
-  m_AlphaBlending: 1
+  m_UseLerps: 1
+  m_LerpScales: 1
+  m_LerpMoves: 1
+  m_LerpAlphaChanges: 1
+  m_ScalingSpeed: 5
+  m_MovingSpeed: 5
+  m_AlphaChangingSpeed: 10
+  m_UseAlphaBlending: 1
   m_AlphaStartPercentage: .200000003
+  m_UseCustomAlphaLimits: 1
+  m_MinAlpha: 0
+  m_MaxAlpha: .800000012
+  m_Tag: BlueCubes
+  m_DirectViewOnly: 1
+  m_RaycastLayer: BlueCubes
 --- !u!114 &2086983990
 MonoBehaviour:
   m_ObjectHideFlags: 0

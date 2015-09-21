@@ -61,19 +61,41 @@ public class UIRadarV2_CustomEditor : Editor
         _Target.m_MaxDistance = EditorGUILayout.Slider("MaxDistance", _Target.m_MaxDistance, _Target.m_MinDistance, 1000.0f);
         _Target.m_MinDistance = EditorGUILayout.Slider("MinDistance", _Target.m_MinDistance, 0.0f, _Target.m_MaxDistance);
 
-        _Target.m_ScalingSpeed = EditorGUILayout.Slider("ScalingSpeed", _Target.m_ScalingSpeed, 0.0f, 50.0f);
-        _Target.m_MovingSpeed = EditorGUILayout.Slider("MovingSpeed", _Target.m_MovingSpeed, 0.0f, 50.0f);
-
-        _Target.m_AlphaBlending = EditorGUILayout.Toggle("AlphaBlending", _Target.m_AlphaBlending);
-        if (_Target.m_AlphaBlending)
+        if (_Target.m_UseAlphaBlending = EditorGUILayout.Toggle("UseAlphaBlending", _Target.m_UseAlphaBlending))
         {
-            _Target.m_AlphaStartPercentage = EditorGUILayout.FloatField("AlphaStartPercentage", _Target.m_AlphaStartPercentage);
+            _Target.m_AlphaStartPercentage = EditorGUILayout.Slider("AlphaStartPercentage", _Target.m_AlphaStartPercentage, 0.0f, 0.5f);
+
+            if (_Target.m_UseCustomAlphaLimits = EditorGUILayout.Toggle("UseCustomAlphaLimits", _Target.m_UseCustomAlphaLimits))
+            {
+                _Target.m_MinAlpha = EditorGUILayout.Slider("MinAlpha", _Target.m_MinAlpha, 0.0f, _Target.m_MaxAlpha);
+                _Target.m_MaxAlpha = EditorGUILayout.Slider("MaxAlpha", _Target.m_MaxAlpha, _Target.m_MinAlpha, 1.0f);
+            }
         }
 
-        _Target.m_DirectViewOnly = EditorGUILayout.Toggle("DirectViewOnly", _Target.m_DirectViewOnly);
-        if (_Target.m_DirectViewOnly)
+        if (_Target.m_DirectViewOnly = EditorGUILayout.Toggle("DirectViewOnly", _Target.m_DirectViewOnly))
         {
             _Target.m_RaycastLayer = LayerMask.LayerToName(EditorGUILayout.LayerField("RaycastLayer", LayerMask.NameToLayer(_Target.m_RaycastLayer)));
+        }
+
+        if (_Target.m_UseLerps = EditorGUILayout.Toggle("UseLerps", _Target.m_UseLerps))
+        {
+            if (_Target.m_LerpScales = EditorGUILayout.Toggle("LerpScales", _Target.m_LerpScales))
+            {
+                _Target.m_ScalingSpeed = EditorGUILayout.Slider("ScalingSpeed", _Target.m_ScalingSpeed, 0.0f, 50.0f);
+            }
+
+            if (_Target.m_LerpMoves = EditorGUILayout.Toggle("LerpMoves", _Target.m_LerpMoves))
+            {
+                _Target.m_MovingSpeed = EditorGUILayout.Slider("MovingSpeed", _Target.m_MovingSpeed, 0.0f, 50.0f);
+            }
+
+            if (_Target.m_UseAlphaBlending)
+            {
+                if (_Target.m_LerpAlphaChanges = EditorGUILayout.Toggle("LerpAlphaChanges", _Target.m_LerpAlphaChanges))
+                {
+                    _Target.m_AlphaChangingSpeed = EditorGUILayout.Slider("AlphaChangingSpeed", _Target.m_AlphaChangingSpeed, 0.0f, 50.0f);
+                }
+            }
         }
 
         /*
