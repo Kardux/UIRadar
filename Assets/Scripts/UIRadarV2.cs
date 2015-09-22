@@ -41,14 +41,21 @@ public class UIRadarV2 : MonoBehaviour
     public float m_MaxDistance = 10.0f;
     public float m_MinDistance = 2.0f;
 
+    //Color
+    public ColorMode m_ColorMode = ColorMode.SingleColor;
+    public List<Color> m_MarkerColors = new List<Color> { Color.white };
+    public List<float> m_MarkersColorsPercentages = new List<float> { 0.0f, 1.0f };
+
     //Lerping
     public bool m_UseLerps = true;
     public bool m_LerpScales = true;
     public bool m_LerpMoves = true;
     public bool m_LerpAlphaChanges = true;
+    public bool m_LerpColors = true;
     public float m_ScalingSpeed = 5.0f;
     public float m_MovingSpeed = 5.0f;
     public float m_AlphaChangingSpeed = 5.0f;
+    public float m_ColoringSpeed = 5.0f;
 
     //Alpha blending
     public bool m_UseAlphaBlending = true;
@@ -63,7 +70,6 @@ public class UIRadarV2 : MonoBehaviour
     //Display only if target can be seen
     public bool m_DirectViewOnly = false;
     public string m_RaycastLayer = "";
-    
 
     public struct RadarMarker
     {
@@ -75,15 +81,18 @@ public class UIRadarV2 : MonoBehaviour
         public Vector2 m_CurrentPosition;
         public Vector2 m_TargetLerpScale;
         public Vector2 m_TargetLerpPosition;
-        public float m_CurrentMarkerAlpha;
-        public float m_TargetLerpMarkerAlpha;
+        public float m_CurrentAlpha;
+        public float m_TargetLerpAlpha;
+        public Color m_CurrentColor;
+        public Color m_TargetLerpColor;
     }
+
+    public enum ColorMode { SingleColor, SimpleGradient, MultipleGradient };
 
     private List<RadarMarker> m_MarkersList = new List<RadarMarker>();
     private List<GameObject> m_Targets;
 
     private GameObject m_MainCamera;
-    private GameObject m_MarkerMockUp;
 
     private Vector2 m_CanvasSize;
     private Vector2 m_RadarRatio;
@@ -108,15 +117,15 @@ public class UIRadarV2 : MonoBehaviour
         }
         if (!checkTag)
             Debug.LogWarning("\"" + m_Tag + "\" tag not found in the project.");
+
+        if (!m_MarkerSprite)
+            Debug.LogWarning("No sprite currently assigned to your radar.");
 #endif
 
         m_Targets = new List<GameObject>();
         m_MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        m_MarkerMockUp = GetComponentInChildren<Image>().gameObject;
 
         SetRadarSpecifications();
-
-        Debug.Log(m_RadarRect);
 
         UpdateTargets();
     }
@@ -150,7 +159,7 @@ public class UIRadarV2 : MonoBehaviour
             if (m_DirectViewOnly)
             {
                 RaycastHit _HitInfos = new RaycastHit();
-                if (Physics.Raycast(m_MainCamera.transform.position, m_Targets[i].transform.position - m_MainCamera.transform.position, out _HitInfos, m_MaxDistance, ~ LayerMask.NameToLayer(m_RaycastLayer)))
+                if (Physics.Raycast(m_MainCamera.transform.position, m_Targets[i].transform.position - m_MainCamera.transform.position, out _HitInfos, m_MaxDistance, ~LayerMask.NameToLayer(m_RaycastLayer)))
                 {
                     if (_HitInfos.collider.gameObject.Equals(m_Targets[i]))
                         _DirectView = true;
@@ -185,9 +194,49 @@ public class UIRadarV2 : MonoBehaviour
                 _TargetInRange = true;
             }
 
+
+            switch (m_ColorMode)
+            {
+                case ColorMode.SingleColor:
+                    _Marker.m_TargetLerpColor = m_MarkerColors[0];
+                    break;
+
+                case ColorMode.SimpleGradient :
+                    if (_TargetInRange)
+                        _Marker.m_TargetLerpColor = ColorGradient(m_MarkerColors[0], m_MarkerColors[1], (_Marker.m_TargetDistance - m_MinDistance) / (m_MaxDistance - m_MinDistance));
+                    else
+                        _Marker.m_TargetLerpColor = m_MarkerColors[1];
+                    break;
+
+                case ColorMode.MultipleGradient :
+                    if (_TargetInRange)
+                    {
+                        for (int j = 0; j < m_MarkersColorsPercentages.Count; j++)
+                        {
+                            //TODEBUG
+                            if (m_MarkersColorsPercentages[j] > (_Marker.m_TargetDistance - m_MinDistance) / (m_MaxDistance - m_MinDistance))
+                            {
+                                if (j == 0)
+                                {
+                                    _Marker.m_TargetLerpColor = m_MarkerColors[0];
+                                    break;
+                                }
+
+                                _Marker.m_TargetLerpColor = ColorGradient(m_MarkerColors[j - 1], m_MarkerColors[j], ((_Marker.m_TargetDistance - m_MinDistance) / (m_MaxDistance - m_MinDistance) - m_MarkersColorsPercentages[j - 1]) / (m_MarkersColorsPercentages[j] - m_MarkersColorsPercentages[j - 1]));
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _Marker.m_TargetLerpColor = m_MarkerColors[m_MarkerColors.Count - 1];
+                    }
+                    break;
+            }
+
             if (!_TargetInRange || _Marker.m_WorldToScreenPosition.x < m_RadarRect.xMin || _Marker.m_WorldToScreenPosition.x > m_RadarRect.xMax || _Marker.m_WorldToScreenPosition.y < m_RadarRect.yMin || _Marker.m_WorldToScreenPosition.y > m_RadarRect.yMax)
             {
-                _Marker.m_TargetLerpMarkerAlpha = m_MinAlpha;
+                _Marker.m_TargetLerpAlpha = m_MinAlpha;
             }
             else if (m_UseAlphaBlending)
             {
@@ -205,11 +254,11 @@ public class UIRadarV2 : MonoBehaviour
                     _YAlpha = Mathf.Clamp((m_RadarRect.yMax - _Marker.m_WorldToScreenPosition.y) / m_AlphaStartPercentage / m_RadarRect.height, 0f, 1f);
 
 
-                _Marker.m_TargetLerpMarkerAlpha = (_XAlpha < _YAlpha ? m_MinAlpha + (m_MaxAlpha - m_MinAlpha) * _XAlpha : m_MinAlpha + (m_MaxAlpha - m_MinAlpha) * _YAlpha);
+                _Marker.m_TargetLerpAlpha = (_XAlpha < _YAlpha ? m_MinAlpha + (m_MaxAlpha - m_MinAlpha) * _XAlpha : m_MinAlpha + (m_MaxAlpha - m_MinAlpha) * _YAlpha);
             }
             else
             {
-                _Marker.m_TargetLerpMarkerAlpha = m_MaxAlpha;
+                _Marker.m_TargetLerpAlpha = m_MaxAlpha;
             }
 
             if (m_UseLerps)
@@ -231,14 +280,15 @@ public class UIRadarV2 : MonoBehaviour
                 }
 
                 if (m_LerpAlphaChanges)
-                {
-                    _Marker.m_CurrentMarkerAlpha = Mathf.Lerp(_Marker.m_CurrentMarkerAlpha, _Marker.m_TargetLerpMarkerAlpha, m_AlphaChangingSpeed * Time.deltaTime);
-                }
+                    _Marker.m_CurrentAlpha = Mathf.Lerp(_Marker.m_CurrentAlpha, _Marker.m_TargetLerpAlpha, m_AlphaChangingSpeed * Time.deltaTime);
                 else
-                {
-                    _Marker.m_CurrentMarkerAlpha = _Marker.m_TargetLerpMarkerAlpha;
-                }
-                
+                    _Marker.m_CurrentAlpha = _Marker.m_TargetLerpAlpha;
+
+                if (m_LerpColors)
+                    _Marker.m_CurrentColor = Color.Lerp(_Marker.m_CurrentColor, _Marker.m_TargetLerpColor, m_ColoringSpeed * Time.deltaTime);
+                else
+                    _Marker.m_CurrentColor = _Marker.m_TargetLerpColor;
+
             }
             else
             {
@@ -247,14 +297,16 @@ public class UIRadarV2 : MonoBehaviour
                 _Marker.m_CurrentPosition.x = _Marker.m_TargetLerpPosition.x * m_CanvasSize.x * m_RadarRatio.x;
                 _Marker.m_CurrentPosition.y = _Marker.m_TargetLerpPosition.y * m_CanvasSize.y * m_RadarRatio.y;
 
-                _Marker.m_CurrentMarkerAlpha = _Marker.m_TargetLerpMarkerAlpha;
+                _Marker.m_CurrentAlpha = _Marker.m_TargetLerpAlpha;
+
+                _Marker.m_CurrentColor = _Marker.m_TargetLerpColor;
             }
 
             _Marker.m_TargetObject.GetComponent<RectTransform>().position = new Vector3(_Marker.m_CurrentPosition.x, _Marker.m_CurrentPosition.y, 0.0f);
             _Marker.m_TargetObject.GetComponent<RectTransform>().localScale = new Vector3(_Marker.m_CurrentScale.x, _Marker.m_CurrentScale.y, 1.0f);
 
-            Color _TmpColor = _Marker.m_TargetObject.GetComponent<Image>().color;
-            _Marker.m_TargetObject.GetComponent<Image>().color = new Color(_TmpColor.r, _TmpColor.g, _TmpColor.b, _Marker.m_CurrentMarkerAlpha);
+            Color _TmpColor = _Marker.m_CurrentColor;
+            _Marker.m_TargetObject.GetComponent<Image>().color = new Color(_TmpColor.r, _TmpColor.g, _TmpColor.b, _Marker.m_CurrentAlpha);
 
             m_MarkersList[i] = _Marker;
 
@@ -285,15 +337,13 @@ public class UIRadarV2 : MonoBehaviour
             m_MaxAlpha = 1.0f;
         }
     }
-    
+
     public void UpdateTargets()
     {
         m_Targets.Clear();
-        m_MarkerMockUp.SetActive(true);
         foreach (Transform _Child in gameObject.transform)
         {
-            if (!_Child.gameObject.Equals(m_MarkerMockUp))
-                Destroy(_Child);
+            Destroy(_Child);
         }
 
         GameObject[] _TmpTargets = new GameObject[GameObject.FindGameObjectsWithTag(m_Tag).Length];
@@ -303,16 +353,17 @@ public class UIRadarV2 : MonoBehaviour
             m_Targets.Add(_TmpTargets[i]);
 
             RadarMarker _NewTarget = new RadarMarker();
-            GameObject _Icon = Instantiate(m_MarkerMockUp);
+            GameObject _Icon = new GameObject();
+            _Icon.AddComponent<Image>();
+            _Icon.GetComponent<Image>().sprite = m_MarkerSprite;
+            _Icon.GetComponent<Image>().color = m_MarkerColors[m_MarkerColors.Count - 1];
             _Icon.name = _TmpTargets[i].name + "_Marker";
             _Icon.transform.SetParent(transform);
             _Icon.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
             _NewTarget.m_TargetObject = _Icon;
-            _NewTarget.m_CurrentMarkerAlpha = 1.0f;
+            _NewTarget.m_CurrentAlpha = 1.0f;
             m_MarkersList.Add(_NewTarget);
         }
-
-        m_MarkerMockUp.SetActive(false);
     }
 
     public void DeleteTarget(GameObject Obj, bool ResetMarkers = false)
@@ -360,6 +411,14 @@ public class UIRadarV2 : MonoBehaviour
         m_AlphaStartPercentage = AlphaStartPercentage;
     }
     //////////////////////////////////////////////////////////////////////////
+    private Color ColorGradient(Color ColorA, Color ColorB, float Percentage)
+    {
+        float _R = (ColorA.r + (ColorB.r - ColorA.r) * Percentage);
+        float _G = (ColorA.g + (ColorB.g - ColorA.g) * Percentage);
+        float _B = (ColorA.b + (ColorB.b - ColorA.b) * Percentage);
+
+        return new Color(_R, _G, _B);
+    }
     #endregion
 }
 //////////////////////////////////////////////////////////////////////////
