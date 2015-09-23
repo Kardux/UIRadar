@@ -43,8 +43,14 @@ public class UIRadarV2 : MonoBehaviour
 
     //Color
     public ColorMode m_ColorMode = ColorMode.SingleColor;
+    public bool m_GradienColorTransition = true;
     public List<Color> m_MarkerColors = new List<Color> { Color.white };
     public List<float> m_MarkersColorsPercentages = new List<float> { 0.0f, 1.0f };
+
+    //Rotation
+    public RotationSpeedMode m_RotationSpeedMode = RotationSpeedMode.Constant;
+    public float m_MinRotationSpeed = 20.0f;
+    public float m_MaxRotationSpeed = 0.0f;
 
     //Lerping
     public bool m_UseLerps = true;
@@ -52,10 +58,12 @@ public class UIRadarV2 : MonoBehaviour
     public bool m_LerpMoves = true;
     public bool m_LerpAlphaChanges = true;
     public bool m_LerpColors = true;
+    public bool m_LerpRotations = true;
     public float m_ScalingSpeed = 5.0f;
     public float m_MovingSpeed = 5.0f;
     public float m_AlphaChangingSpeed = 5.0f;
     public float m_ColoringSpeed = 5.0f;
+    public float m_RotatingLerpSpeed = 5.0f;
 
     //Alpha blending
     public bool m_UseAlphaBlending = true;
@@ -85,9 +93,12 @@ public class UIRadarV2 : MonoBehaviour
         public float m_TargetLerpAlpha;
         public Color m_CurrentColor;
         public Color m_TargetLerpColor;
+        public Vector3 m_CurrentRotation;
+        public Vector3 m_TargetLerpRotation;
     }
 
-    public enum ColorMode { SingleColor, SimpleGradient, MultipleGradient };
+    public enum ColorMode { SingleColor, SimpleGradient, MultipleColors };
+    public enum RotationSpeedMode { Constant, OverDistance, Random };
 
     private List<RadarMarker> m_MarkersList = new List<RadarMarker>();
     private List<GameObject> m_Targets;
@@ -97,6 +108,8 @@ public class UIRadarV2 : MonoBehaviour
     private Vector2 m_CanvasSize;
     private Vector2 m_RadarRatio;
     private Rect m_RadarRect;
+
+    private bool m_RotationSpeedEnbaled;
 #pragma warning restore 0414
     //////////////////////////////////////////////////////////////////////////
     #endregion
@@ -127,6 +140,8 @@ public class UIRadarV2 : MonoBehaviour
 
         SetRadarSpecifications();
 
+        m_RotationSpeedEnbaled = CheckForRotationSpeed();
+
         UpdateTargets();
     }
 
@@ -137,12 +152,14 @@ public class UIRadarV2 : MonoBehaviour
             RadarMarker _Marker = new RadarMarker();
             _Marker = m_MarkersList[i];
 
+            //Global marker informations
             if (m_Targets[i])
             {
                 _Marker.m_WorldToScreenPosition = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().WorldToViewportPoint(m_Targets[i].transform.position);
-                _Marker.m_TargetDistance = Vector3.Distance(m_Targets[i].transform.position, GameObject.FindGameObjectWithTag("Player").transform.position);
+                _Marker.m_TargetDistance = Vector3.Distance(m_Targets[i].transform.position, GameObject.FindGameObjectWithTag("MainCamera").transform.position);
             }
 
+            //Scale
             if (_Marker.m_TargetDistance > m_MaxDistance || _Marker.m_TargetDistance < m_MinDistance || _Marker.m_WorldToScreenPosition.z < 0.0f)
             {
                 _Marker.m_TargetLerpScale.x = m_MinMarkerScale;
@@ -154,6 +171,7 @@ public class UIRadarV2 : MonoBehaviour
                 _Marker.m_TargetLerpScale.y = m_MaxMarkerScale / _Marker.m_TargetDistance;
             }
 
+            //Direct view
             bool _DirectView = false;
 
             if (m_DirectViewOnly)
@@ -170,6 +188,7 @@ public class UIRadarV2 : MonoBehaviour
                 _DirectView = true;
             }
 
+            //Position
             bool _TargetInRange = false;
 
             if (!_DirectView || _Marker.m_TargetDistance > m_MaxDistance || _Marker.m_WorldToScreenPosition.z < 0.0f)
@@ -194,7 +213,7 @@ public class UIRadarV2 : MonoBehaviour
                 _TargetInRange = true;
             }
 
-
+            //Color
             switch (m_ColorMode)
             {
                 case ColorMode.SingleColor:
@@ -208,12 +227,11 @@ public class UIRadarV2 : MonoBehaviour
                         _Marker.m_TargetLerpColor = m_MarkerColors[1];
                     break;
 
-                case ColorMode.MultipleGradient :
+                case ColorMode.MultipleColors :
                     if (_TargetInRange)
                     {
                         for (int j = 0; j < m_MarkersColorsPercentages.Count; j++)
                         {
-                            //TODEBUG
                             if (m_MarkersColorsPercentages[j] > (_Marker.m_TargetDistance - m_MinDistance) / (m_MaxDistance - m_MinDistance))
                             {
                                 if (j == 0)
@@ -222,18 +240,43 @@ public class UIRadarV2 : MonoBehaviour
                                     break;
                                 }
 
-                                _Marker.m_TargetLerpColor = ColorGradient(m_MarkerColors[j - 1], m_MarkerColors[j], ((_Marker.m_TargetDistance - m_MinDistance) / (m_MaxDistance - m_MinDistance) - m_MarkersColorsPercentages[j - 1]) / (m_MarkersColorsPercentages[j] - m_MarkersColorsPercentages[j - 1]));
+                                if (m_GradienColorTransition)
+                                    _Marker.m_TargetLerpColor = ColorGradient(m_MarkerColors[j - 1], m_MarkerColors[j], ((_Marker.m_TargetDistance - m_MinDistance) / (m_MaxDistance - m_MinDistance) - m_MarkersColorsPercentages[j - 1]) / (m_MarkersColorsPercentages[j] - m_MarkersColorsPercentages[j - 1]));
+                                else
+                                    _Marker.m_TargetLerpColor = m_MarkerColors[j - 1];
                                 break;
                             }
                         }
                     }
                     else
                     {
-                        _Marker.m_TargetLerpColor = m_MarkerColors[m_MarkerColors.Count - 1];
+                        _Marker.m_TargetLerpColor = m_MarkerColors[0];
                     }
                     break;
             }
 
+            //Rotation speed
+            if (m_RotationSpeedEnbaled)
+            {
+                switch (m_RotationSpeedMode)
+                {
+                    case RotationSpeedMode.Constant :
+                        _Marker.m_TargetLerpRotation.z = m_MinRotationSpeed;
+                        break;
+
+                    case RotationSpeedMode.OverDistance :
+                        _Marker.m_TargetLerpRotation.z = m_MinRotationSpeed + (_Marker.m_TargetDistance - m_MinDistance) / (m_MaxDistance - m_MinDistance) * (m_MaxRotationSpeed - m_MinRotationSpeed);
+                        break;
+
+                    case RotationSpeedMode.Random :
+                        break;
+
+                    default :
+                        break;
+                }
+            }
+
+            //Alpha blending
             if (!_TargetInRange || _Marker.m_WorldToScreenPosition.x < m_RadarRect.xMin || _Marker.m_WorldToScreenPosition.x > m_RadarRect.xMax || _Marker.m_WorldToScreenPosition.y < m_RadarRect.yMin || _Marker.m_WorldToScreenPosition.y > m_RadarRect.yMax)
             {
                 _Marker.m_TargetLerpAlpha = m_MinAlpha;
@@ -261,6 +304,7 @@ public class UIRadarV2 : MonoBehaviour
                 _Marker.m_TargetLerpAlpha = m_MaxAlpha;
             }
 
+            //Lerps
             if (m_UseLerps)
             {
                 if (m_LerpScales)
@@ -284,11 +328,15 @@ public class UIRadarV2 : MonoBehaviour
                 else
                     _Marker.m_CurrentAlpha = _Marker.m_TargetLerpAlpha;
 
-                if (m_LerpColors)
+                if (m_LerpColors && !(m_ColorMode == ColorMode.MultipleColors && !m_GradienColorTransition))
                     _Marker.m_CurrentColor = Color.Lerp(_Marker.m_CurrentColor, _Marker.m_TargetLerpColor, m_ColoringSpeed * Time.deltaTime);
                 else
                     _Marker.m_CurrentColor = _Marker.m_TargetLerpColor;
 
+                if (m_LerpRotations)
+                    _Marker.m_CurrentRotation = Vector3.Lerp(_Marker.m_CurrentRotation, _Marker.m_TargetLerpRotation, m_RotatingLerpSpeed * Time.deltaTime);
+                else
+                    _Marker.m_CurrentRotation = _Marker.m_TargetLerpRotation;
             }
             else
             {
@@ -300,14 +348,20 @@ public class UIRadarV2 : MonoBehaviour
                 _Marker.m_CurrentAlpha = _Marker.m_TargetLerpAlpha;
 
                 _Marker.m_CurrentColor = _Marker.m_TargetLerpColor;
+
+                _Marker.m_CurrentRotation = _Marker.m_TargetLerpRotation;
             }
 
+            //Apply values
             _Marker.m_TargetObject.GetComponent<RectTransform>().position = new Vector3(_Marker.m_CurrentPosition.x, _Marker.m_CurrentPosition.y, 0.0f);
             _Marker.m_TargetObject.GetComponent<RectTransform>().localScale = new Vector3(_Marker.m_CurrentScale.x, _Marker.m_CurrentScale.y, 1.0f);
 
             Color _TmpColor = _Marker.m_CurrentColor;
             _Marker.m_TargetObject.GetComponent<Image>().color = new Color(_TmpColor.r, _TmpColor.g, _TmpColor.b, _Marker.m_CurrentAlpha);
 
+            _Marker.m_TargetObject.transform.Rotate(_Marker.m_CurrentRotation);
+
+            //Apply marker
             m_MarkersList[i] = _Marker;
 
             //Debug.Log("World to screen : " + _Marker.m_WorldToScreenPosition.ToString() + " // Current position : " + _Marker.m_CurrentPosition.ToString() + " // Target position : " + _Marker.m_TargetLerpPosition.ToString());
@@ -352,17 +406,20 @@ public class UIRadarV2 : MonoBehaviour
         {
             m_Targets.Add(_TmpTargets[i]);
 
-            RadarMarker _NewTarget = new RadarMarker();
+            RadarMarker _NewMarker = new RadarMarker();
             GameObject _Icon = new GameObject();
             _Icon.AddComponent<Image>();
             _Icon.GetComponent<Image>().sprite = m_MarkerSprite;
-            _Icon.GetComponent<Image>().color = m_MarkerColors[m_MarkerColors.Count - 1];
+            _Icon.GetComponent<Image>().color = m_MarkerColors[0];
             _Icon.name = _TmpTargets[i].name + "_Marker";
             _Icon.transform.SetParent(transform);
             _Icon.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            _NewTarget.m_TargetObject = _Icon;
-            _NewTarget.m_CurrentAlpha = 1.0f;
-            m_MarkersList.Add(_NewTarget);
+            _NewMarker.m_TargetObject = _Icon;
+            _NewMarker.m_CurrentAlpha = 1.0f;
+            if (m_RotationSpeedEnbaled && m_RotationSpeedMode == RotationSpeedMode.Random)
+                _NewMarker.m_TargetLerpRotation.z = Random.Range(m_MinRotationSpeed, m_MaxRotationSpeed);
+
+            m_MarkersList.Add(_NewMarker);
         }
     }
 
@@ -418,6 +475,24 @@ public class UIRadarV2 : MonoBehaviour
         float _B = (ColorA.b + (ColorB.b - ColorA.b) * Percentage);
 
         return new Color(_R, _G, _B);
+    }
+
+    private bool CheckForRotationSpeed()
+    {
+        switch (m_RotationSpeedMode)
+        {
+            case RotationSpeedMode.Constant :
+                return m_MinRotationSpeed != 0.0f;
+
+            case RotationSpeedMode.OverDistance :
+                return (m_MinRotationSpeed != 0.0f || m_MaxRotationSpeed != 0.0f);
+
+            case RotationSpeedMode.Random :
+                return (m_MinRotationSpeed != 0.0f || m_MaxRotationSpeed != 0.0f);
+
+            default:
+                return true;
+        }
     }
     #endregion
 }

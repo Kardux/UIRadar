@@ -363,7 +363,7 @@ GameObject:
   - 33: {fileID: 1255835154}
   - 65: {fileID: 1255835153}
   - 23: {fileID: 1255835152}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Cube_White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,33 +425,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
---- !u!1 &1269235854
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1269235855}
-  m_Layer: 0
-  m_Name: Player
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1269235855
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1269235854}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1381519560}
-  m_RootOrder: 0
 --- !u!1 &1381519555
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,8 +507,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1269235855}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!114 &1381519561
@@ -734,6 +706,7 @@ MonoBehaviour:
   m_MaxDistance: 25
   m_MinDistance: 2
   m_ColorMode: 2
+  m_GradienColorTransition: 1
   m_MarkerColors:
   - {r: 0, g: 0, b: 0, a: 1}
   - {r: 1, g: 1, b: 1, a: 1}
@@ -744,16 +717,21 @@ MonoBehaviour:
   - .330000013
   - .660000026
   - 1
+  m_RotationSpeedMode: 2
+  m_MinRotationSpeed: 10
+  m_MaxRotationSpeed: -10
   m_UseLerps: 1
   m_LerpScales: 1
   m_LerpMoves: 1
   m_LerpAlphaChanges: 1
   m_LerpColors: 0
+  m_LerpRotations: 1
   m_ScalingSpeed: 5
   m_MovingSpeed: 5
   m_AlphaChangingSpeed: 10
   m_ColoringSpeed: 5
-  m_UseAlphaBlending: 1
+  m_RotatingLerpSpeed: 5
+  m_UseAlphaBlending: 0
   m_AlphaStartPercentage: .200000003
   m_UseCustomAlphaLimits: 1
   m_MinAlpha: 0

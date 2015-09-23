@@ -32,6 +32,7 @@ public class UIRadarV2_CustomEditor : Editor
 	//////////////////////////////////////////////////////////////////////////
     private bool m_GeneralSettingsFoldout = true;
     private bool m_ColorSettingsFoldout = true;
+    private bool m_OrientationSettingsFoldout = true;
     private bool m_AlphaBlendingSettingsFoldout = true;
     private bool m_LerpingSettingsFoldout = true;
 
@@ -119,9 +120,9 @@ public class UIRadarV2_CustomEditor : Editor
                     EditorGUI.indentLevel--;
                     break;
 
-                case UIRadarV2.ColorMode.MultipleGradient:
+                case UIRadarV2.ColorMode.MultipleColors:
                     EditorGUI.indentLevel++;
-                    if (m_PreviousColorMode != UIRadarV2.ColorMode.MultipleGradient)
+                    if (m_PreviousColorMode != UIRadarV2.ColorMode.MultipleColors)
                     {
                         if (_Target.m_MarkerColors.Count == 0)
                         {
@@ -137,6 +138,9 @@ public class UIRadarV2_CustomEditor : Editor
                             _Target.m_MarkersColorsPercentages = new List<float>() { 0.0f, 1.0f };
                     }
 
+                    m_GUIContent = new GUIContent("ColorGradient", "If activated, color will go from one to another following a gradient");
+                    _Target.m_GradienColorTransition = EditorGUILayout.Toggle(m_GUIContent, _Target.m_GradienColorTransition);
+
                     for (int i = 0; i < _Target.m_MarkerColors.Count; i ++)
                     {
                         EditorGUILayout.BeginHorizontal();
@@ -144,7 +148,9 @@ public class UIRadarV2_CustomEditor : Editor
                         m_GUIContent = new GUIContent((i == 0 ? "Color Min" : (i == _Target.m_MarkerColors.Count - 1 ? "Color Max" : "Color " + i.ToString())), "Edit color " + i.ToString() + " properties (color - distance %)");
                         EditorGUILayout.LabelField(m_GUIContent, GUILayout.MaxWidth(110.0f));
 
-                        _Target.m_MarkerColors[i] = EditorGUILayout.ColorField(_Target.m_MarkerColors[i]);
+                        if (i != _Target.m_MarkerColors.Count - 1 || _Target.m_GradienColorTransition)
+                            _Target.m_MarkerColors[i] = EditorGUILayout.ColorField(_Target.m_MarkerColors[i]);
+
                         if (i == 0)
                         {
                             _Target.m_MarkersColorsPercentages[i] = EditorGUILayout.Slider(_Target.m_MarkersColorsPercentages[i] * 100.0f, 0.0f, 0.0f) / 100.0f;
@@ -158,15 +164,16 @@ public class UIRadarV2_CustomEditor : Editor
                             _Target.m_MarkersColorsPercentages[i] = EditorGUILayout.Slider(_Target.m_MarkersColorsPercentages[i] * 100.0f, _Target.m_MarkersColorsPercentages[i - 1] * 100.0f, _Target.m_MarkersColorsPercentages[i + 1] * 100.0f) / 100.0f;
                         }
 
+                        Color _GUIColor = GUI.color;
                         GUI.enabled = !(i == _Target.m_MarkerColors.Count - 1);
-                        GUI.color = (i == _Target.m_MarkerColors.Count - 1 ? new Color(0.0f, 0.0f, 0.0f, 0.0f) : Color.white);
+                        GUI.color = (i == _Target.m_MarkerColors.Count - 1 ? new Color(0.0f, 0.0f, 0.0f, 0.0f) : _GUIColor);
                         m_GUIContent = new GUIContent("+", "");
                         if (GUILayout.Button(m_GUIContent, EditorStyles.miniButtonLeft))
                         {
                             _Target.m_MarkerColors.Insert(i + 1, Color.white);
                             _Target.m_MarkersColorsPercentages.Insert(i + 1, (_Target.m_MarkersColorsPercentages[i] + _Target.m_MarkersColorsPercentages[i + 1]) * 0.5f);
                         }
-                        GUI.color = Color.white;
+                        GUI.color = _GUIColor;
                         GUI.enabled = (_Target.m_MarkerColors.Count > 2);
                         m_GUIContent = new GUIContent("-", "");
                         if (GUILayout.Button(m_GUIContent, EditorStyles.miniButtonRight))
@@ -178,8 +185,38 @@ public class UIRadarV2_CustomEditor : Editor
                         EditorGUILayout.EndHorizontal();
                     }
 
-                    m_PreviousColorMode = UIRadarV2.ColorMode.MultipleGradient;
+                    m_PreviousColorMode = UIRadarV2.ColorMode.MultipleColors;
                     EditorGUI.indentLevel--;
+                    break;
+            }
+            EditorGUI.indentLevel--;
+        }
+
+        GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(1));
+
+        if (m_OrientationSettingsFoldout = EditorGUILayout.Foldout(m_OrientationSettingsFoldout, "Orientation settings"))
+        {
+            EditorGUI.indentLevel++;
+            m_GUIContent = new GUIContent("RotationSpeedMode", "");
+            switch (_Target.m_RotationSpeedMode = (UIRadarV2.RotationSpeedMode)EditorGUILayout.EnumPopup(m_GUIContent, _Target.m_RotationSpeedMode))
+            {
+                case UIRadarV2.RotationSpeedMode.Constant :
+                    m_GUIContent = new GUIContent("RotationSpeed", "");
+                    _Target.m_MinRotationSpeed = EditorGUILayout.Slider(m_GUIContent, _Target.m_MinRotationSpeed, -50.0f, 50.0f);
+                    break;
+
+                case UIRadarV2.RotationSpeedMode.OverDistance :
+                    m_GUIContent = new GUIContent("MinRotationSpeed", "Rotation speed at minimum distance");
+                    _Target.m_MinRotationSpeed = EditorGUILayout.Slider(m_GUIContent, _Target.m_MinRotationSpeed, -50.0f, 50.0f);
+                    m_GUIContent = new GUIContent("MaxRotationSpeed", "Rotation speed at maximum distance");
+                    _Target.m_MaxRotationSpeed = EditorGUILayout.Slider(m_GUIContent, _Target.m_MaxRotationSpeed, -50.0f, 50.0f);
+                    break;
+
+                case UIRadarV2.RotationSpeedMode.Random :
+                    m_GUIContent = new GUIContent("MinRotationSpeed", "Minimum range of random rotation speed (applied on start)");
+                    _Target.m_MinRotationSpeed = EditorGUILayout.Slider(m_GUIContent, _Target.m_MinRotationSpeed, -100.0f, 100.0f);
+                    m_GUIContent = new GUIContent("MaxRotationSpeed", "Maximum range of random rotation speed (applied on start)");
+                    _Target.m_MaxRotationSpeed = EditorGUILayout.Slider(m_GUIContent, _Target.m_MaxRotationSpeed, -100.0f, 100.0f);
                     break;
             }
             EditorGUI.indentLevel--;
@@ -230,6 +267,9 @@ public class UIRadarV2_CustomEditor : Editor
 
                 if (_Target.m_LerpColors = EditorGUILayout.Toggle("LerpColors", _Target.m_LerpColors))
                     _Target.m_ColoringSpeed = EditorGUILayout.Slider("ColoringSpeed", _Target.m_ColoringSpeed, 0.0f, 50.0f);
+
+                if (_Target.m_LerpRotations = EditorGUILayout.Toggle("LerpRotations", _Target.m_LerpRotations))
+                    _Target.m_RotatingLerpSpeed = EditorGUILayout.Slider("RotatingSpeed", _Target.m_RotatingLerpSpeed, 0.0f, 50.0f);
                 EditorGUI.indentLevel--;
             }
             EditorGUI.indentLevel--;
