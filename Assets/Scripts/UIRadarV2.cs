@@ -77,7 +77,7 @@ public class UIRadarV2 : MonoBehaviour
 
     //Display only if target can be seen
     public bool m_DirectViewOnly = false;
-    public string m_RaycastLayer = "";
+    public string m_RaycastLayer = "Default";
 
     public struct RadarMarker
     {
@@ -265,7 +265,7 @@ public class UIRadarV2 : MonoBehaviour
                         break;
 
                     case RotationSpeedMode.OverDistance :
-                        _Marker.m_TargetLerpRotation.z = m_MinRotationSpeed + (_Marker.m_TargetDistance - m_MinDistance) / (m_MaxDistance - m_MinDistance) * (m_MaxRotationSpeed - m_MinRotationSpeed);
+                        _Marker.m_TargetLerpRotation.z = m_MaxRotationSpeed + (_Marker.m_TargetDistance - m_MaxDistance) / (m_MinDistance - m_MaxDistance) * (m_MinRotationSpeed - m_MaxRotationSpeed);
                         break;
 
                     case RotationSpeedMode.Random :

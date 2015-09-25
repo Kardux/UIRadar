@@ -1,6 +1,7 @@
 Please read "Docs/Documentation.pdf" to learn how to use this script. **COMING SOON**
 
 TODO List :
-- Custom inspector Ctr-Z support
+//- Custom inspector Ctr-Z support (Will be looked at later : seems serialized properties are the only way to go)
 - Script optimization settings
 - Documentation
+//- Demo scene

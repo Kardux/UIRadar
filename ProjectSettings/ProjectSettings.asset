@@ -11,8 +11,8 @@ PlayerSettings:
   targetIOSGraphics: -1
   targetResolution: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: GUIRadarTestScene
+  companyName: KDXStudio
+  productName: UIRadarTestBuild
   cloudProjectId: 
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -87,7 +87,7 @@ PlayerSettings:
   AndroidPreferredInstallLocation: 1
   aotOptions: 
   apiCompatibilityLevel: 2
-  iPhoneStrippingLevel: 0
+  iPhoneStrippingLevel: 2
   iPhoneScriptCallOptimization: 0
   ForceInternetPermission: 0
   ForceSDCardPermission: 0
@@ -137,9 +137,12 @@ PlayerSettings:
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:
-    - m_Icon: {fileID: 2800000, guid: 41b55f3ba63154d408a9dd890ffe36ec, type: 3}
+    - m_Icon: {fileID: 0}
       m_Size: 128
-  m_BuildTargetBatching: []
+  m_BuildTargetBatching:
+  - m_BuildTarget: WebGL
+    m_StaticBatching: 1
+    m_DynamicBatching: 1
   webPlayerTemplate: APPLICATION:Black Background
   m_TemplateCustomTags: {}
   actionOnDotNetUnhandledException: 1
