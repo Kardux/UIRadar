@@ -103,7 +103,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!23 &23482189
 MeshRenderer:
@@ -176,7 +176,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &51182856
 Transform:
@@ -249,7 +249,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &64131686
 Transform:
@@ -322,7 +322,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &88272576
 Transform:
@@ -395,7 +395,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &100604954
 Transform:
@@ -468,7 +468,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &107636585
 Transform:
@@ -541,7 +541,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &150820425
 Transform:
@@ -614,7 +614,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &170016765
 Transform:
@@ -687,7 +687,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &214874573
 Transform:
@@ -760,7 +760,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &236493827
 Transform:
@@ -833,7 +833,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &265537950
 Transform:
@@ -906,7 +906,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &273807443
 Transform:
@@ -979,7 +979,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &277708758
 Transform:
@@ -1052,7 +1052,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &293510837
 Transform:
@@ -1125,7 +1125,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &295567317
 Transform:
@@ -1198,7 +1198,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &307324987
 Transform:
@@ -1271,7 +1271,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &309449586
 Transform:
@@ -1344,7 +1344,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &423911629
 Transform:
@@ -1417,7 +1417,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &436077833
 Transform:
@@ -1490,7 +1490,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!23 &450720188
 MeshRenderer:
@@ -1563,7 +1563,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &452438602
 Transform:
@@ -1636,7 +1636,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &454741581
 Transform:
@@ -1709,7 +1709,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &464690676
 Transform:
@@ -1782,7 +1782,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &482303013
 Transform:
@@ -1855,7 +1855,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &507791635
 Transform:
@@ -1928,7 +1928,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &516064565
 Transform:
@@ -2001,7 +2001,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &520909213
 Transform:
@@ -2074,7 +2074,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &542472368
 Transform:
@@ -2147,7 +2147,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &556511117
 Transform:
@@ -2220,7 +2220,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &574488341
 Transform:
@@ -2293,7 +2293,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &580269334
 Transform:
@@ -2366,7 +2366,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &590222306
 Transform:
@@ -2439,7 +2439,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &599566263
 Transform:
@@ -2512,7 +2512,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &610506081
 Transform:
@@ -2585,7 +2585,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &620886925
 Transform:
@@ -2658,7 +2658,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &626307221
 Transform:
@@ -2731,7 +2731,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &656080712
 Transform:
@@ -2804,7 +2804,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &665162615
 Transform:
@@ -2877,7 +2877,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &666361904
 Transform:
@@ -2950,7 +2950,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &672864978
 Transform:
@@ -3023,7 +3023,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &679289946
 Transform:
@@ -3096,7 +3096,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &681973000
 Transform:
@@ -3169,7 +3169,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &686668142
 Transform:
@@ -3242,7 +3242,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &697162656
 Transform:
@@ -3315,7 +3315,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &711471308
 Transform:
@@ -3388,7 +3388,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &730253577
 Transform:
@@ -3461,7 +3461,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &737459028
 Transform:
@@ -3534,7 +3534,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &754263606
 Transform:
@@ -3607,7 +3607,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &755203460
 Transform:
@@ -3680,7 +3680,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &758792903
 Transform:
@@ -3789,7 +3789,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &773800391
 Transform:
@@ -3862,7 +3862,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &780226629
 Transform:
@@ -4052,7 +4052,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &791777874
 Transform:
@@ -4125,7 +4125,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &811085706
 Transform:
@@ -4198,7 +4198,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &845174274
 Transform:
@@ -4271,7 +4271,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &850920276
 Transform:
@@ -4344,7 +4344,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &854189746
 Transform:
@@ -4417,7 +4417,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &857136408
 Transform:
@@ -4490,7 +4490,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &876294002
 Transform:
@@ -4563,7 +4563,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &929899205
 Transform:
@@ -4636,7 +4636,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &933776149
 Transform:
@@ -4801,7 +4801,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &947520750
 Transform:
@@ -4874,7 +4874,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &961382991
 Transform:
@@ -4947,7 +4947,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &961472651
 Transform:
@@ -5020,7 +5020,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &985976544
 Transform:
@@ -5090,7 +5090,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1064664376
 Transform:
@@ -5122,7 +5122,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1068226676
 Transform:
@@ -5195,7 +5195,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1091793322
 Transform:
@@ -5268,7 +5268,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1096735001
 Transform:
@@ -5341,7 +5341,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1109155938
 Transform:
@@ -5414,7 +5414,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1124524792
 Transform:
@@ -5487,7 +5487,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1126503619
 Transform:
@@ -5560,7 +5560,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1128376188
 Transform:
@@ -5633,7 +5633,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1128499629
 Transform:
@@ -5706,7 +5706,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1225713568
 Transform:
@@ -5779,7 +5779,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1242042003
 Transform:
@@ -5852,7 +5852,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!23 &1255835152
 MeshRenderer:
@@ -5925,7 +5925,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1258448186
 Transform:
@@ -5998,7 +5998,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1271312308
 Transform:
@@ -6071,7 +6071,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1290698560
 Transform:
@@ -6141,7 +6141,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1309256261
 Transform:
@@ -6296,7 +6296,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1355804897
 Transform:
@@ -6369,7 +6369,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1358170261
 Transform:
@@ -6442,7 +6442,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1358966604
 Transform:
@@ -6512,7 +6512,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1365093352
 Transform:
@@ -6638,7 +6638,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1371796075
 Transform:
@@ -6711,7 +6711,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1377936553
 Transform:
@@ -6895,7 +6895,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1391028016
 Transform:
@@ -6968,7 +6968,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1391682236
 Transform:
@@ -7101,7 +7101,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1400407351
 Transform:
@@ -7285,7 +7285,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1427557062
 Transform:
@@ -7358,7 +7358,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1429347813
 Transform:
@@ -7431,7 +7431,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1432870162
 Transform:
@@ -7504,7 +7504,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1446180039
 Transform:
@@ -7688,7 +7688,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1464436570
 Transform:
@@ -7761,7 +7761,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1469112870
 Transform:
@@ -7834,7 +7834,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1486851967
 Transform:
@@ -7907,7 +7907,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1488351220
 Transform:
@@ -7980,7 +7980,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1491275398
 Transform:
@@ -8053,7 +8053,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1500669830
 Transform:
@@ -8126,7 +8126,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1541039457
 Transform:
@@ -8199,7 +8199,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1564831754
 Transform:
@@ -8426,7 +8426,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1581897263
 Transform:
@@ -8499,7 +8499,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1596805190
 Transform:
@@ -8572,7 +8572,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1654916942
 Transform:
@@ -8645,7 +8645,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1656825520
 Transform:
@@ -8718,7 +8718,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1657577085
 Transform:
@@ -8791,7 +8791,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1661970643
 Transform:
@@ -8864,7 +8864,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1675584568
 Transform:
@@ -8937,7 +8937,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1689461019
 Transform:
@@ -9010,7 +9010,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1717321410
 Transform:
@@ -9083,7 +9083,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1727061931
 Transform:
@@ -9156,7 +9156,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1742542422
 Transform:
@@ -9229,7 +9229,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1750130641
 Transform:
@@ -9302,7 +9302,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1756187701
 Transform:
@@ -9375,7 +9375,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1757025754
 Transform:
@@ -9448,7 +9448,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1789489118
 Transform:
@@ -9521,7 +9521,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1802069003
 Transform:
@@ -9594,7 +9594,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1816454545
 Transform:
@@ -9667,7 +9667,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1820057883
 Transform:
@@ -9740,7 +9740,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1846735547
 Transform:
@@ -9813,7 +9813,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1889491853
 Transform:
@@ -9886,7 +9886,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1919003847
 Transform:
@@ -9959,7 +9959,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1960534789
 Transform:
@@ -10032,7 +10032,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1962104942
 Transform:
@@ -10105,7 +10105,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1965394500
 Transform:
@@ -10178,7 +10178,7 @@ GameObject:
   m_TagString: RadarCubesMain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1973452959
 Transform:
@@ -10251,7 +10251,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2035002651
 Transform:
@@ -10324,7 +10324,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2036235848
 Transform:
@@ -10397,7 +10397,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2061875156
 Transform:
@@ -10470,7 +10470,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2070791210
 Transform:
@@ -10654,7 +10654,7 @@ GameObject:
   m_TagString: RadarCubes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2103448931
 Transform:

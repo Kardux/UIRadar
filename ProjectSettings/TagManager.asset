@@ -6,6 +6,7 @@ TagManager:
   tags:
   - RadarCubes
   - RadarCubesMain
+  - TestTag
   layers:
   - Default
   - TransparentFX
