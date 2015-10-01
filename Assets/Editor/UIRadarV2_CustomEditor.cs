@@ -90,7 +90,7 @@ public class UIRadarV2_CustomEditor : Editor
                             _Target.m_MarkerColors.Add(Color.white);
                     }
 
-                    m_GUIContent = new GUIContent("Marker color", "");
+                    m_GUIContent = new GUIContent("MarkerColor", "");
                     _Target.m_MarkerColors[0] = EditorGUILayout.ColorField(m_GUIContent, _Target.m_MarkerColors[0]);
 
                     m_PreviousColorMode = UIRadarV2.ColorMode.SingleColor;
@@ -111,9 +111,9 @@ public class UIRadarV2_CustomEditor : Editor
                         }
                     }
 
-                    m_GUIContent = new GUIContent("Color Min", "Color displayed at minimum distance");
+                    m_GUIContent = new GUIContent("MinColor", "Color displayed at minimum distance");
                     _Target.m_MarkerColors[0] = EditorGUILayout.ColorField(m_GUIContent, _Target.m_MarkerColors[0]);
-                    m_GUIContent = new GUIContent("Color Max", "Color displayed at maximum distance");
+                    m_GUIContent = new GUIContent("MaxColor", "Color displayed at maximum distance");
                     _Target.m_MarkerColors[1] = EditorGUILayout.ColorField(m_GUIContent, _Target.m_MarkerColors[1]);
 
                     m_PreviousColorMode = UIRadarV2.ColorMode.SimpleGradient;
@@ -145,7 +145,7 @@ public class UIRadarV2_CustomEditor : Editor
                     {
                         EditorGUILayout.BeginHorizontal();
 
-                        m_GUIContent = new GUIContent((i == 0 ? "Color Min" : (i == _Target.m_MarkerColors.Count - 1 ? "Color Max" : "Color " + i.ToString())), "Edit color " + i.ToString() + " properties (color - distance %)");
+                        m_GUIContent = new GUIContent((i == 0 ? "MinColor" : (i == _Target.m_MarkerColors.Count - 1 ? "MaxColor" : "Color" + i.ToString())), "Edit color " + i.ToString() + " properties (color - distance %)");
                         EditorGUILayout.LabelField(m_GUIContent, GUILayout.MaxWidth(110.0f));
 
                         if (i != _Target.m_MarkerColors.Count - 1 || _Target.m_GradienColorTransition)
