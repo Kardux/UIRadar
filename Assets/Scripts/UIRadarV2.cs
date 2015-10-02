@@ -375,6 +375,7 @@ public class UIRadarV2 : MonoBehaviour
     //////////////////////////////////////////////////////////////////////////
     //METHODS
     //////////////////////////////////////////////////////////////////////////
+    //Initialisation
     public void SetRadarSpecifications()
     {
         RectTransform _RadarRect = GetComponent<RectTransform>();
@@ -440,34 +441,99 @@ public class UIRadarV2 : MonoBehaviour
             UpdateTargets();
     }
 
+    //////////////////////////////////////////////////////////////////////////
+    //Setter
     public void SetMarkerSprite(Sprite Sprite)
     {
         m_MarkerSprite = Sprite;
+        for (int i = 0; i < m_MarkersList.Count; i ++)
+        {
+            m_MarkersList[i].m_TargetObject.GetComponent<Image>().sprite = m_MarkerSprite;
+        }
     }
 
-    public void SetScales(float MinScale, float MaxScale)
+    public void SetDistances(float MaxDistance, float MinDistance)
     {
-        m_MinMarkerScale = MinScale;
-        m_MaxMarkerScale = MaxScale;
-    }
-
-    public void SetDistances(float MinDistance, float MaxDistance)
-    {
-        m_MinDistance = MinDistance;
         m_MaxDistance = MaxDistance;
+        m_MinDistance = MinDistance;
     }
 
-    public void SetSpeeds(float MovingSpeed, float ScalingSpeed)
+    public void SetScales(float MaxScale, float MinScale = 0.0f)
+    {
+        m_MaxMarkerScale = MaxScale;
+        m_MinMarkerScale = MinScale;
+    }
+
+    public void SetColors(List<Color> MarkerColors, ColorMode Mode = ColorMode.SingleColor, bool GradienColorTransition = false)
+    {
+        m_ColorMode = Mode;
+        switch (m_ColorMode)
+        {
+            case ColorMode.SingleColor :
+                m_MarkerColors[0] = MarkerColors[0];
+                break;
+
+            case ColorMode.SimpleGradient :
+                m_MarkerColors[0] = MarkerColors[0];
+                m_MarkerColors[1] = MarkerColors[1];
+                break;
+
+            case ColorMode.MultipleColors :
+                m_MarkerColors = MarkerColors;
+                break;
+        }
+    }
+
+    public void SetRotation(float MinRotationSpeed, float MaxRotationSpeed, RotationSpeedMode RotationMode = RotationSpeedMode.Constant)
+    {
+        m_RotationSpeedMode = RotationMode;
+        m_MinRotationSpeed = MinRotationSpeed;
+        m_MaxRotationSpeed = MaxRotationSpeed;
+
+        m_RotationSpeedEnbaled = CheckForRotationSpeed();
+
+        if (m_RotationSpeedEnbaled && m_RotationSpeedMode == RotationSpeedMode.Random)
+        {
+            for (int i = 0; i < m_MarkersList.Count; i ++)
+            {
+                RadarMarker _TmpRadarMarker = m_MarkersList[i];
+                _TmpRadarMarker.m_TargetLerpRotation.z = Random.Range(m_MinRotationSpeed, m_MaxRotationSpeed);
+                m_MarkersList[i] = _TmpRadarMarker;
+            }
+        }
+    }
+
+    public void SetLerpsUsage(bool UseLerps)
+    {
+        m_UseLerps = UseLerps;
+    }
+
+    public void SetLerpsUsage(bool LerpAlphaChanges, bool LerpColors, bool LerpMoves, bool LerpRotations, bool LerpScales)
+    {
+        m_LerpAlphaChanges = LerpAlphaChanges;
+        m_LerpColors = LerpColors;
+        m_LerpMoves = LerpMoves;
+        m_LerpRotations = LerpRotations;
+        m_LerpScales = LerpScales;
+    }
+
+    public void SetLerpsSpeeds(float AlphaChangingSpeed, float ColoringSpeed, float MovingSpeed, float RotatingLerpSpeed, float ScalingSpeed)
+    {
+        m_AlphaChangingSpeed = AlphaChangingSpeed;
+        m_ColoringSpeed = ColoringSpeed;
+        m_MovingSpeed = MovingSpeed;
+        m_RotatingLerpSpeed = RotatingLerpSpeed;
+        m_ScalingSpeed = ScalingSpeed;
+    }
+
+    public void SetLerpsSpeeds(float MovingSpeed, float ScalingSpeed)
     {
         m_MovingSpeed = MovingSpeed;
         m_ScalingSpeed = ScalingSpeed;
     }
 
-    public void SetAlphaStartPercentage(float AlphaStartPercentage)
-    {
-        m_AlphaStartPercentage = AlphaStartPercentage;
-    }
     //////////////////////////////////////////////////////////////////////////
+    //Private methods
     private Color ColorGradient(Color ColorA, Color ColorB, float Percentage)
     {
         float _R = (ColorA.r + (ColorB.r - ColorA.r) * Percentage);
