@@ -442,6 +442,59 @@ public class UIRadarV2 : MonoBehaviour
     }
 
     //////////////////////////////////////////////////////////////////////////
+    //Getter
+    public T[] GetRadarMarkersArray<T>()
+    {
+        if (typeof(T).Equals(typeof(GameObject)))
+        {
+            T[] _Result = new T[m_MarkersList.Count];
+            for (int i = 0; i < m_MarkersList.Count; i++)
+            {
+                _Result[i] = (T)(object)(m_MarkersList[i].m_TargetObject);
+            }
+            return _Result;
+        }
+        else if (typeof(T).Equals(typeof(Image)))
+        {
+            T[] _Result = new T[m_MarkersList.Count];
+            for (int i = 0; i < m_MarkersList.Count; i++)
+            {
+                _Result[i] = (T)(object)(m_MarkersList[i].m_TargetObject.GetComponent<Image>());
+            }
+            return _Result;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public List<T> GetRadarMarkersList<T>()
+    {
+        if (typeof(T).Equals(typeof(GameObject)))
+        {
+            List<T> _Result = new List<T>();
+            for (int i = 0; i < m_MarkersList.Count; i++)
+            {
+                _Result.Add((T)(object)(m_MarkersList[i].m_TargetObject));
+            }
+            return _Result;
+        }
+        else if (typeof(T).Equals(typeof(Image)))
+        {
+            List<T> _Result = new List<T>();
+            for (int i = 0; i < m_MarkersList.Count; i++)
+            {
+                _Result.Add((T)(object)(m_MarkersList[i].m_TargetObject.GetComponent<Image>()));
+            }
+            return _Result;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
     //Setter
     public void SetMarkerSprite(Sprite Sprite)
     {
